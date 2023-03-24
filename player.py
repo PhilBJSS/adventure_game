@@ -27,3 +27,5 @@ class Player:
         else:
            self.position = newPosition 
         
+    def look_around(self):
+        self.building.itemsInRoom(self.position)

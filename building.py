@@ -9,13 +9,29 @@ class Building:
                                       (3,1) : Room("bedroom"),
         }
 
+    def where(self, position):
+        return self.rooms[position]
+    
     def whichRoom(self, position):
-        return self.rooms[position].name
-
+        return self.where(position).name
+    
+    def itemsInRoom(self, position):
+        return self.where(position).print_items()
+        
 
 class Room:
     def __init__(self, name):
         self.name = name 
         self.items = {
-            "on table" : Item("pan") #this is just an example
         }
+
+    def add_item(self, location, name):
+        self.items[location] = Item(name)
+
+    def print_items(self):
+        for item in self.items:
+            print(f'there is a {self.items[item].name} {item}')
+
+
+
+# "on table" : Item("pan") #this is just an example
