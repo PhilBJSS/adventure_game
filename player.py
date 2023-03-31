@@ -3,6 +3,7 @@ class Player:
         self.name = name
         self.position = position
         self.building = building
+        self.items = []
     
     def move(self, direction):
         movement = (0,0)
@@ -28,4 +29,20 @@ class Player:
            self.position = newPosition 
         
     def look_around(self):
-        self.building.itemsInRoom(self.position)
+        items = self.building.itemsInRoom(self.position)
+        haveFoundItems = len(items) > 0 
+        return haveFoundItems
+
+
+    def pick_up(self, itemName):
+       room = self.building.where(self.position)
+       item = room.take_item(itemName)
+       if item != None:
+           self.items.append(item)
+
+    def check_inventory(self): 
+        if len(self.items) == 0:
+            print("you have no items")
+            return
+        for item in self.items:
+            print(f'you have a {item.name}')

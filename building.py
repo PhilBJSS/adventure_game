@@ -16,8 +16,8 @@ class Building:
         return self.where(position).name
     
     def itemsInRoom(self, position):
-        return self.where(position).print_items()
-        
+        self.where(position).print_items()
+        return self.where(position).items
 
 class Room:
     def __init__(self, name):
@@ -27,6 +27,14 @@ class Room:
 
     def add_item(self, location, name):
         self.items[location] = Item(name)
+
+    def take_item(self, name): 
+        for location in self.items: 
+            item = self.items[location]
+            if item.name == name :
+                print(f'you take the {name} from {location}')
+                return self.items.pop(location)
+        print(f'you could not find the {name}')
 
     def print_items(self):
         for item in self.items:
