@@ -40,6 +40,18 @@ class Player:
        if item != None:
            self.items.append(item)
 
+    def put_down(self, itemName):
+        location = 'on the floor'
+        for item in self.items: 
+            if item.name == itemName :
+                print(f'you put the {itemName} {location}')
+                room = self.building.where(self.position)
+                room.place_item(item, location)
+                self.items.remove(item)
+                return
+        print(f'you do not have {itemName}')
+            
+
     def check_inventory(self): 
         if len(self.items) == 0:
             print("you have no items")

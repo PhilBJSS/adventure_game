@@ -11,6 +11,10 @@ def game_loop():
             itemToTake = input("Enter item to pick up: ")
             player.pick_up(itemToTake)
         player.check_inventory()
+        if len(player.items)>0:
+            itemToPlace = input("Enter item to put down: ")
+            player.put_down(itemToPlace)
+            player.check_inventory()
         if mansion.whichRoom(player.position) == 'west hallway':
             break
         movechar = input("Enter a direction: ")

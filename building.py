@@ -36,6 +36,9 @@ class Room:
                 return self.items.pop(location)
         print(f'you could not find the {name}')
 
+    def place_item(self, item, location):
+        self.items.update({location : item})
+
     def print_items(self):
         for item in self.items:
             print(f'there is a {self.items[item].name} {item}')
