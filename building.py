@@ -35,6 +35,9 @@ class Room:
     def add_item(self, location, name):
         self.items[location] = Item(name)
 
+    def add_empty_location(self, location):
+        self.items[location] = None
+
     def take_item(self, name): 
         for location in self.items: 
             item = self.items[location]

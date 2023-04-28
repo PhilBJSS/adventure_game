@@ -27,6 +27,7 @@ location_names = [
     'taped to the ceiling',
     'on the window sill',
     'by the cat',
+    'in the fridge',
 ]
 
 class Game:
@@ -34,9 +35,27 @@ class Game:
         self.mansion = Building()
         self.player  = Player("Bob", (0,0), self.mansion)
         room_coordinates = list(self.mansion.rooms)
-        for i in range(5):
-            room_coordinate =  random.choice(room_coordinates)
-            self.mansion.rooms[room_coordinate].add_item(random.choice(location_names), random.choice(item_names))
+        emptyLocationChance = 0.2
+        for i in range(len(room_coordinates)):
+            item_name = random.choice(item_names)
+            room_coordinate = random.choice(room_coordinates)
+
+            if len(location_names) > 0:
+                location_name = random.choice(location_names)
+            else:
+                break
+
+            if random.random() < emptyLocationChance:
+                self.mansion.rooms[room_coordinate].add_empty_location(location_name)
+                print(f'generated an empty location {location_name} in the {self.mansion.rooms[room_coordinate].name}')
+                location_names.remove(location_name)
+                continue
+
+            self.mansion.rooms[room_coordinate].add_item(location_name, item_name)
+            item_names.remove(item_name)
+            location_names.remove(location_name)
+            room_coordinates.remove(room_coordinate)
+            print(f'generated a {item_name} {location_name} in the {self.mansion.rooms[room_coordinate].name}')
 
     def play(self):
 
