@@ -40,14 +40,22 @@ class Player:
        if item != None:
            self.items.append(item)
 
-    def put_down(self, itemName):
+    def put_down(self, itemName, inputLocation):
         location = 'on the floor'
+        room = self.building.where(self.position)
+        for place in room.items:
+            if place == inputLocation:
+                location = inputLocation
+        if location != inputLocation:
+            print(f'You cannot put the {itemName} {inputLocation}')
         for item in self.items: 
-            if item.name == itemName :
+            if item.name == itemName and room.items[location] == None :
                 print(f'you put the {itemName} {location}')
-                room = self.building.where(self.position)
                 room.place_item(item, location)
                 self.items.remove(item)
+                return
+            elif item.name == itemName:
+                print(f'There is no space {location}')
                 return
         print(f'you do not have {itemName}')
             

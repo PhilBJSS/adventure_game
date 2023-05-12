@@ -37,7 +37,12 @@ class Game:
         room_coordinates = list(self.mansion.rooms)
         emptyLocationChance = 0.2
         for i in range(len(room_coordinates)):
-            item_name = random.choice(item_names)
+            
+            if len(item_names) > 0:
+                item_name = random.choice(item_names)
+            else:
+                break
+
             room_coordinate = random.choice(room_coordinates)
 
             if len(location_names) > 0:
@@ -68,7 +73,8 @@ class Game:
             self.player.check_inventory()
             if len(self.player.items)>0:
                 itemToPlace = input("Enter item to put down: ")
-                self.player.put_down(itemToPlace)
+                placeToPutIt = input("Enter a place to put the item: ")
+                self.player.put_down(itemToPlace, placeToPutIt)
                 self.player.check_inventory()
             if self.mansion.whichRoom(self.player.position) == 'west hallway':
                 break
