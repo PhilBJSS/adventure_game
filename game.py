@@ -63,9 +63,9 @@ class Game:
             print(f'generated a {item_name} {location_name} in the {self.mansion.rooms[room_coordinate].name}')
 
     def play(self):
-
         while (True):
-            print(f"{self.mansion.whichRoom(self.player.position)}")  #kitchen
+            self.player.describe_location()
+            self.player.pick_action()
             hasFoundItems = self.player.look_around()
             if hasFoundItems: 
                 itemToTake = input("Enter item to pick up: ")

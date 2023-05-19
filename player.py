@@ -1,3 +1,8 @@
+class Action:
+     def __init__(self, description, func):
+        self.description = description
+        self.func = func
+
 class Player:
     def __init__(self, name, position, building):
         self.name = name
@@ -33,7 +38,6 @@ class Player:
         haveFoundItems = len(items) > 0 
         return haveFoundItems
 
-
     def pick_up(self, itemName):
        room = self.building.where(self.position)
        item = room.take_item(itemName)
@@ -59,10 +63,28 @@ class Player:
                 return
         print(f'you do not have {itemName}')
             
-
     def check_inventory(self): 
         if len(self.items) == 0:
             print("you have no items")
             return
         for item in self.items:
             print(f'you have a {item.name}')
+
+    def describe_location(self): 
+        print(f"You are in the {self.building.whichRoom(self.position)}")
+
+    def pick_action(self):
+        print("What would you like to do?")
+        options = [
+            Action("Look around", self.look_around), 
+            Action("Check inventory", self.check_inventory), 
+            Action("Pick up item", self.pick_up), 
+            Action("Put down item", self.put_down), 
+            Action("Move", self.move)
+            ]
+        for i in range(len(options)):
+            print(f"{i+1}) {options[i].description}")
+        playerInput = input()
+        playerInputInt = int(playerInput) - 1 
+        action = options[playerInputInt]
+        action.func()
