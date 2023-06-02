@@ -15,7 +15,7 @@ class Building:
     def whichRoom(self, position):
         return self.where(position).name
     
-    def itemsInRoom(self, position):
+    def PrintItemsInRoom(self, position):
         room = self.where(position)
         room.print_items()
         items = []
@@ -24,6 +24,16 @@ class Building:
             if item != None:
                 items.append(item)
         return items
+    
+    def itemsInRoom(self, position):
+        room = self.where(position)
+        return room.items
+        # items = []
+        # for location in room.items:
+        #     item = room.items[location]
+        #     if item != None:
+        #         items.append(item)
+        # return items
 
 class Room:
     def __init__(self, name):
@@ -52,13 +62,13 @@ class Room:
     def place_item(self, item, location):
         self.items.update({location : item})
 
-    def print_items(self):
-        for location in self.items:
-            item = self.items[location] 
-            if item != None: 
-                print(f'there is a {item.name} {location}')
-            else: 
-                print(f"there is nothing {location}")
+    # def print_items(self):
+    #     for location in self.items:
+    #         item = self.items[location] 
+    #         if item != None: 
+    #             print(f'there is a {item.name} {location}')
+    #         else: 
+    #             print(f"there is nothing {location}")
 
 
 

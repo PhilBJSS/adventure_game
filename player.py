@@ -10,7 +10,8 @@ class Player:
         self.building = building
         self.items = []
     
-    def move(self, direction):
+    def move(self):
+        direction = input('Enter a direction: ')
         movement = (0,0)
         match direction:
             case "w":
@@ -33,18 +34,23 @@ class Player:
         else:
            self.position = newPosition 
         
-    def look_around(self):
-        items = self.building.itemsInRoom(self.position)
-        haveFoundItems = len(items) > 0 
+    def are_items_in_location(self):
+        haveFoundItems = len(self.items_in_location) > 0 
         return haveFoundItems
+    
+    def items_in_location(self):
+        return self.building.itemsInRoom(self.position)
 
-    def pick_up(self, itemName):
+    def pick_up(self):
+       itemName = input('Select an item: ')
        room = self.building.where(self.position)
        item = room.take_item(itemName)
        if item != None:
            self.items.append(item)
 
-    def put_down(self, itemName, inputLocation):
+    def put_down(self):
+        itemName = input('Select an item: ')
+        inputLocation = input('Where do you want to put it? ')
         location = 'on the floor'
         room = self.building.where(self.position)
         for place in room.items:
@@ -73,15 +79,26 @@ class Player:
     def describe_location(self): 
         print(f"You are in the {self.building.whichRoom(self.position)}")
 
+    def print_items(self):
+        items = self.items_in_location()
+        for location in items:
+            item = items[location] 
+            if item != None: 
+                print(f'there is a {item.name} {location}')
+            else: 
+                print(f"there is nothing {location}")
+
     def pick_action(self):
         print("What would you like to do?")
-        options = [
-            Action("Look around", self.look_around), 
-            Action("Check inventory", self.check_inventory), 
-            Action("Pick up item", self.pick_up), 
+        options = [ 
+            Action("Look around room", self.print_items),
+            Action("Check inventory", self.check_inventory),             
             Action("Put down item", self.put_down), 
             Action("Move", self.move)
             ]
+        if self.are_items_in_location:
+            options.append(Action("Pick up item", self.pick_up))
+
         for i in range(len(options)):
             print(f"{i+1}) {options[i].description}")
         playerInput = input()

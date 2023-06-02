@@ -66,20 +66,9 @@ class Game:
         while (True):
             self.player.describe_location()
             self.player.pick_action()
-            hasFoundItems = self.player.look_around()
-            if hasFoundItems: 
-                itemToTake = input("Enter item to pick up: ")
-                self.player.pick_up(itemToTake)
-            self.player.check_inventory()
-            if len(self.player.items)>0:
-                itemToPlace = input("Enter item to put down: ")
-                placeToPutIt = input("Enter a place to put the item: ")
-                self.player.put_down(itemToPlace, placeToPutIt)
-                self.player.check_inventory()
             if self.mansion.whichRoom(self.player.position) == 'west hallway':
                 break
-            movechar = input("Enter a direction: ")
-            self.player.move(movechar)
+           
 
 
 if __name__ == "__main__":
