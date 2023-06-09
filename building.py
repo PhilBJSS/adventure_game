@@ -12,10 +12,10 @@ class Building:
     def where(self, position):
         return self.rooms[position]
     
-    def whichRoom(self, position):
+    def which_room(self, position):
         return self.where(position).name
     
-    def PrintItemsInRoom(self, position):
+    def print_items_in_room(self, position):
         room = self.where(position)
         room.print_items()
         items = []
@@ -25,15 +25,13 @@ class Building:
                 items.append(item)
         return items
     
-    def itemsInRoom(self, position):
+    def items_in_room(self, position):
         room = self.where(position)
         return room.items
-        # items = []
-        # for location in room.items:
-        #     item = room.items[location]
-        #     if item != None:
-        #         items.append(item)
-        # return items
+
+    def room_is_empty(self, position):
+        room = self.where(position)
+        return room.is_empty()
 
 class Room:
     def __init__(self, name):
@@ -62,14 +60,8 @@ class Room:
     def place_item(self, item, location):
         self.items.update({location : item})
 
-    # def print_items(self):
-    #     for location in self.items:
-    #         item = self.items[location] 
-    #         if item != None: 
-    #             print(f'there is a {item.name} {location}')
-    #         else: 
-    #             print(f"there is nothing {location}")
-
-
-
-# "on table" : Item("pan") #this is just an example
+    def is_empty(self):
+        for location in self.items:
+            if self.items[location] != None:
+                return False
+        return True

@@ -66,7 +66,7 @@ class Game:
         while (True):
             self.player.describe_location()
             self.player.pick_action()
-            if self.mansion.whichRoom(self.player.position) == 'west hallway':
+            if self.mansion.which_room(self.player.position) == 'west hallway':
                 break
            
 
@@ -74,6 +74,3 @@ class Game:
 if __name__ == "__main__":
     game = Game()
     game.play()
-
-
-

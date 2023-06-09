@@ -28,18 +28,17 @@ class Player:
         newCol = (self.position[1] + movement[1])
         newPosition = (newRow, newCol)
         try:
-            self.building.whichRoom(newPosition)
+            self.building.which_room(newPosition)
         except:
             print("bounced")
         else:
            self.position = newPosition 
         
     def are_items_in_location(self):
-        haveFoundItems = len(self.items_in_location) > 0 
-        return haveFoundItems
+        return self.building.room_is_empty(self.position) == False
     
     def items_in_location(self):
-        return self.building.itemsInRoom(self.position)
+        return self.building.items_in_room(self.position)
 
     def pick_up(self):
        itemName = input('Select an item: ')
@@ -77,7 +76,7 @@ class Player:
             print(f'you have a {item.name}')
 
     def describe_location(self): 
-        print(f"You are in the {self.building.whichRoom(self.position)}")
+        print(f"You are in the {self.building.which_room(self.position)}")
 
     def print_items(self):
         items = self.items_in_location()
@@ -93,11 +92,12 @@ class Player:
         options = [ 
             Action("Look around room", self.print_items),
             Action("Check inventory", self.check_inventory),             
-            Action("Put down item", self.put_down), 
             Action("Move", self.move)
             ]
-        if self.are_items_in_location:
+        if self.are_items_in_location():
             options.append(Action("Pick up item", self.pick_up))
+        if len(self.items) != 0:
+            options.append(Action("Put down item", self.put_down))
 
         for i in range(len(options)):
             print(f"{i+1}) {options[i].description}")
