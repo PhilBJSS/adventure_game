@@ -62,12 +62,34 @@ class Game:
             room_coordinates.remove(room_coordinate)
             print(f'generated a {item_name} {location_name} in the {self.mansion.rooms[room_coordinate].name}')
 
+    def show_map(self):
+        print('|#|#|_|_|')
+        print('|#|#|#|#|')
+        print('|_|#|_|_|')
+        print('|_|#|_|_|')
+
+        room = '#'
+        no_room = '_'
+        symbol00 = no_room
+
+        try:
+            if self.mansion.rooms[(0,2)]:
+                symbol00 = room
+        except:
+            pass
+    
+        print(symbol00)
+
+    
     def play(self):
+        self.show_map()
         while (True):
             self.player.describe_location()
             self.player.pick_action()
             if self.mansion.which_room(self.player.position) == 'west hallway':
                 break
+    
+
            
 
 
