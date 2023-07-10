@@ -63,22 +63,38 @@ class Game:
             print(f'generated a {item_name} {location_name} in the {self.mansion.rooms[room_coordinate].name}')
 
     def show_map(self):
-        print('|#|#|_|_|')
-        print('|#|#|#|#|')
-        print('|_|#|_|_|')
-        print('|_|#|_|_|')
+        roomsDict = {}
 
-        room = '#'
-        no_room = '_'
-        symbol00 = no_room
+        room_char = 1
+        no_room_char = '_'
 
-        try:
-            if self.mansion.rooms[(0,2)]:
-                symbol00 = room
-        except:
-            pass
+        thisMap = ""
+        for y in range(4):
+            thisLine = "|"
+            for x in range(4):
+                thisCell = no_room_char
+                try:
+                    room = self.mansion.rooms[(y,x)]
+                    thisCell = str(room_char)
+                    roomsDict[thisCell] = room
+                    room_char += 1
+                except:
+                    pass  
+                thisLine += f'{thisCell}|'
+            thisMap += f'{thisLine}\n'
+        print(thisMap)
+
+        viewInput = input(f'Which room to view (1-{len(roomsDict)}): ') 
+        room = roomsDict[viewInput] 
+        print(f'this room is the {room.name}')
+        itemsInRoom = room.items 
+        for location in itemsInRoom:
+            item = itemsInRoom[location] 
+            if item != None: 
+                print(f'there is a {item.name} {location}')
+            else: 
+                print(f"there is nothing {location}")
     
-        print(symbol00)
 
     
     def play(self):
