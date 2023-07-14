@@ -9,6 +9,7 @@ class Player:
         self.position = position
         self.building = building
         self.items = []
+        self.visited_rooms = {self.position}
     
     def move(self):
         direction = input('Enter a direction: ')
@@ -33,6 +34,7 @@ class Player:
             print("bounced")
         else:
            self.position = newPosition 
+           self.visited_rooms.add(newPosition)
         
     def are_items_in_location(self):
         return self.building.room_is_empty(self.position) == False
@@ -87,12 +89,49 @@ class Player:
             else: 
                 print(f"there is nothing {location}")
 
+    def look_at_map(self):
+        roomsDict = {}
+        room_char = 1
+        no_room_char = '_'
+        unknown_room_char = '?'
+
+        thisMap = ""
+        for y in range(4):
+            thisLine = "|"
+            for x in range(4):
+                thisCell = no_room_char
+                try:
+                    room = self.building.rooms[(y,x)]
+                    if (y,x) in self.visited_rooms:
+                        thisCell = str(room_char)
+                        roomsDict[thisCell] = room
+                        room_char += 1
+                    else:
+                        thisCell = unknown_room_char
+                except:
+                    pass
+                thisLine += f'{thisCell}|'
+            thisMap += f'{thisLine}\n'
+        print(thisMap)
+
+        viewInput = input(f'Which room to view (1-{len(roomsDict)}): ') 
+        room = roomsDict[viewInput] 
+        print(f'this room is the {room.name}')
+        itemsInRoom = room.items 
+        for location in itemsInRoom:
+            item = itemsInRoom[location] 
+            if item != None: 
+                print(f'there is a {item.name} {location}')
+            else: 
+                print(f"there is nothing {location}")
+
     def pick_action(self):
         print("What would you like to do?")
         options = [ 
             Action("Look around room", self.print_items),
             Action("Check inventory", self.check_inventory),             
-            Action("Move", self.move)
+            Action("Move", self.move),
+            Action("Look at map", self.look_at_map)
             ]
         if self.are_items_in_location():
             options.append(Action("Pick up item", self.pick_up))
