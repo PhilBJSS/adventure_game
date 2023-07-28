@@ -1,4 +1,5 @@
 import random
+from logger import LogLevel, Logger
 from player import Player
 from building import Building
 from items import Item
@@ -31,7 +32,8 @@ location_names = [
 ]
 
 class Game:
-    def __init__(self):
+    def __init__(self, loglevel):
+        self.logger = Logger(loglevel)
         self.mansion = Building()
         self.player  = Player("Bob", (0,0), self.mansion)
         room_coordinates = list(self.mansion.rooms)
@@ -52,7 +54,7 @@ class Game:
 
             if random.random() < emptyLocationChance:
                 self.mansion.rooms[room_coordinate].add_empty_location(location_name)
-                print(f'generated an empty location {location_name} in the {self.mansion.rooms[room_coordinate].name}')
+                self.logger.logDev(f'generated an empty location {location_name} in the {self.mansion.rooms[room_coordinate].name}')
                 location_names.remove(location_name)
                 continue
 
@@ -60,7 +62,7 @@ class Game:
             item_names.remove(item_name)
             location_names.remove(location_name)
             room_coordinates.remove(room_coordinate)
-            print(f'generated a {item_name} {location_name} in the {self.mansion.rooms[room_coordinate].name}')
+            self.logger.logDev(f'generated a {item_name} {location_name} in the {self.mansion.rooms[room_coordinate].name}')
 
     def show_map(self):
         roomsDict = {}
@@ -82,18 +84,18 @@ class Game:
                     pass  
                 thisLine += f'{thisCell}|'
             thisMap += f'{thisLine}\n'
-        print(thisMap)
+        self.logger.logDev(thisMap)
 
         viewInput = input(f'Which room to view (1-{len(roomsDict)}): ') 
         room = roomsDict[viewInput] 
-        print(f'this room is the {room.name}')
+        self.logger.logDev(f'this room is the {room.name}')
         itemsInRoom = room.items 
         for location in itemsInRoom:
             item = itemsInRoom[location] 
             if item != None: 
-                print(f'there is a {item.name} {location}')
+                self.logger.logDev(f'there is a {item.name} {location}')
             else: 
-                print(f"there is nothing {location}")
+                self.logger.logDev(f"there is nothing {location}")
     
 
     
@@ -110,5 +112,5 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game()
+    game = Game(LogLevel.Dev)
     game.play()
