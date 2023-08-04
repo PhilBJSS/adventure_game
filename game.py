@@ -65,6 +65,9 @@ class Game:
             self.logger.logDev(f'generated a {item_name} {location_name} in the {self.mansion.rooms[room_coordinate].name}')
 
     def show_map(self):
+        if self.logger.level != 0:
+            return
+        
         roomsDict = {}
 
         room_char = 1
@@ -112,5 +115,5 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game(LogLevel.Dev)
+    game = Game(LogLevel.Player)
     game.play()
